@@ -5,7 +5,7 @@ services:
     build:
       context: ./docker-spark
       dockerfile: Dockerfile   
-    command: bin/spark-class org.apache.spark.deploy.master.Master -h master
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
     hostname: spark-master
     container_name: spark-master
     expose:
