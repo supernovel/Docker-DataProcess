@@ -1,6 +1,9 @@
 FROM ubuntu:14.04 
 MAINTAINER tobilg <tobilg@gmail.com>
 
+ARG buildno
+ARG buildurl
+
 # Add R list
 RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' | sudo tee -a /etc/apt/sources.list.d/r.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
