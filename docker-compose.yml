@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   spark-master:
     image: gettyimages/spark
@@ -24,9 +24,9 @@ services:
       - 8080:8080
     environment:
       - MASTER=spark://spark-master:7077
+      - SPARK_MASTER_PORT=7077
       - SPARK_MASTER_WEBUI_PORT=4040
       - SPARK_CONF_DIR=/conf
-      - SPARK_PUBLIC_DNS=localhost
     volumes:
       - ./mount/spark-master/conf:/conf
       - ./mount/spark-master/data:/tmp/data
