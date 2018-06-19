@@ -1,0 +1,59 @@
+version: '3'
+services:
+  spark-master:
+    image: gettyimages/spark
+    build:
+      context: ./docker-spark
+      dockerfile: Dockerfile   
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h master
+    hostname: spark-master
+    container_name: spark-master
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+      - 6066
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    environment:
+      - MASTER=spark://spark-master:7077
+      - SPARK_MASTER_WEBUI_PORT=4040
+      - SPARK_CONF_DIR=/conf
+      - SPARK_PUBLIC_DNS=localhost
+    volumes:
+      - ./mount/spark-master/conf:/conf
+      - ./mount/spark-master/data:/tmp/data
+    networks:
+      - spark-net
+  livy:
+    build:
+      context: ./docker-livy
+      dockerfile: Dockerfile 
+      args: 
+        buildno: ${LIVY_BUILD_VERSION}
+        buildurl: ${LIVY_BUILD_URL}
+    container_name: livy
+    depends_on:
+      - spark-master
+    expose:
+      - 8998
+    ports:
+      - 8998:8998
+    environment:
+      - LIVY_CONF_DIR=/apps/livy/conf
+    volumes:
+      - ./mount/livy/logs:/apps/livy/logs
+      - ./mount/livy/conf:/apps/livy/conf
+    networks:
+      - spark-net
+networks:
+  spark-net:
+    external:
+      name: spark-net
