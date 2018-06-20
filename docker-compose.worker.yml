@@ -3,7 +3,7 @@ services:
   spark-worker-1:
     image: gettyimages/spark
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://${SPARK_MASTER_HOST}:7077
-    container_name: spark-worker-2
+    container_name: spark-worker-1
     expose:
       - 7012
       - 7013
@@ -27,9 +27,4 @@ services:
     volumes:
       - ./mount/spark-worker-1/conf:/conf
       - ./mount/spark-worker-1/data:/tmp/data
-    networks:
-      - spark-net
-networks:
-  spark-net:
-    external:
-      name: spark-net
+    network_mode: "host"
