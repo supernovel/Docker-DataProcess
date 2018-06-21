@@ -8,7 +8,7 @@ ARG buildurl
 RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' | sudo tee -a /etc/apt/sources.list.d/r.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 
-RUN apt-get update && apt-get install -yq --no-install-recommends --force-yes software-properties-common && add-apt-repository ppa:openjdk-r/ppa
+RUN apt-get update && apt-get install -yq --no-install-recommends --force-yes software-properties-common && add-apt-repository ppa:openjdk-r/ppa && add-apt-repository ppa:fkrull/deadsnakes
 
 # packages
 RUN apt-get update && apt-get install -yq --no-install-recommends --force-yes \
@@ -45,11 +45,14 @@ ENV MESOS_NATIVE_JAVA_LIBRARY /usr/local/lib/libmesos.so
 
 # Python install
 RUN apt-get update && apt-get install -y \
-    python \
-    python-setuptools \
-    python-pip
+    python3.5 \
+    python3-setuptools \
+    python3-pip
 
-RUN echo $(python -v)
+RUN ln -s pip3 /usr/bin/pip
+RUN ln -s python3.5 /usr/bin/python
+
+RUN echo $(python --version)
 RUN python -m pip install --upgrade pip setuptools wheel
 
 # Mesos install
