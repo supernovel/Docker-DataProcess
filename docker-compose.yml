@@ -25,7 +25,6 @@ services:
     environment:
       - MASTER=spark://spark-master:7077
       - SPARK_MASTER_PORT=7077
-      - SPARK_MASTER_WEBUI_PORT=4040
       - SPARK_CONF_DIR=/conf
       - SPARK_PUBLIC_DNS=localhost
     volumes:
@@ -47,6 +46,7 @@ services:
       - 8998
     ports:
       - 8998:8998
+      - 5050:4040
     environment:
       - LIVY_CONF_DIR=/apps/livy/conf
     volumes:
